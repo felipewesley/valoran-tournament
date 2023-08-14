@@ -5,7 +5,7 @@ import { TOURNAMENT_CONSTANTS } from "app/domain/constants/tournament/tournament
 
 type FormValue = {
 	numberOfTeams: number;
-	requestScore: boolean;
+	requestScore?: boolean;
 };
 
 type FormType = {
@@ -57,6 +57,22 @@ export class TournamentSetupDialogFormService {
 		};
 
 		return value;
+	}
+
+	/**
+	 * Updates the form value
+	 * @param value
+	 * @returns
+	 */
+	public patchValue(value: FormValue): void {
+
+		if (!value)
+			return void 0;
+
+		this._form.patchValue({
+			numberOfTeams: value.numberOfTeams,
+			requestScore: value.requestScore
+		});
 	}
 
 	// --------------------------------------------------

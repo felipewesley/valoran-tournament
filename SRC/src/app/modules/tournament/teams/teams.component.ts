@@ -1,13 +1,13 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 
 import { MaterialModule } from "app/shared/modules/material";
 
-import { filter, switchMap } from "rxjs";
+import { Subject, filter, switchMap, takeUntil } from "rxjs";
 import { DialogService } from "app/core/dialog";
-import { CoreTournamentService } from "app/core/tournament";
 
+import { TeamModel } from "app/domain/models/tournament/team/team.model";
 import { TeamCreationModel } from "app/domain/models/tournament/team/team-creation.model";
 
 import { TournamentTeamsService } from "./services/teams.service";
@@ -26,7 +26,7 @@ import { TournamentTeamsService } from "./services/teams.service";
 		TournamentTeamsService
 	]
 })
-export default class TournamentTeamsComponent implements OnInit {
+export default class TournamentTeamsComponent implements OnInit, OnDestroy {
 
 	// --------------------------------------------------
 	// Properties
@@ -34,13 +34,16 @@ export default class TournamentTeamsComponent implements OnInit {
 
 	public sidenavOpened: boolean = false;
 
-	public teams$ = this._service.teams$;
+	public teams: TeamModel[] = [];
+	public numberOfTeams: number;
+
+	// Unsubscription
+	private _unsubscribeAll = new Subject<void>();
 
 	/**
 	 * Constructor
 	 */
 	constructor(
-		private _tournamentService: CoreTournamentService,
 		private _service: TournamentTeamsService,
 		private _dialogService: DialogService,
 		private _router: Router,
@@ -49,6 +52,22 @@ export default class TournamentTeamsComponent implements OnInit {
 
 	ngOnInit(): void {
 
+		this._service.teams$
+			.pipe(
+				takeUntil(this._unsubscribeAll)
+			)
+			.subscribe(teams => (this.teams = teams));
+
+		this._service.tournamentNumberOfTeams$
+			.pipe(
+				takeUntil(this._unsubscribeAll)
+			)
+			.subscribe(numberOfTeams => (this.numberOfTeams = numberOfTeams));
+	}
+
+	ngOnDestroy(): void {
+		this._unsubscribeAll.next();
+		this._unsubscribeAll.complete();
 	}
 
 	// --------------------------------------------------
@@ -85,7 +104,7 @@ export default class TournamentTeamsComponent implements OnInit {
 						members: res.members
 					};
 
-					return this._tournamentService.createTeam(model);
+					return this._service.createTeam(model);
 				})
 			)
 			.subscribe(teamId => {

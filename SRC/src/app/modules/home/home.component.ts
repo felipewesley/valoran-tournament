@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { MaterialModule } from "app/shared/modules/material";
 
-import { filter, switchMap } from "rxjs";
+import { Subject, filter, switchMap, takeUntil } from "rxjs";
 import { DialogService } from "app/core/dialog";
 import { NotificationService } from "app/core/notification";
 
@@ -29,9 +29,14 @@ import { HomeActionItemComponent } from "./components/action-item/action-item.co
 		HomeService
 	]
 })
-export default class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit, OnDestroy {
 
 	public actions$ = this._service.actions$;
+
+	private _numberOfTeams: number;
+
+	// Unsubscription
+	private _unsubscribeAll = new Subject<void>();
 
 	/**
 	 * Constructor
@@ -46,6 +51,17 @@ export default class HomeComponent implements OnInit {
 
 		this._service.fetchActions()
 			.subscribe();
+
+		this._service.numberOfTeams$
+			.pipe(
+				takeUntil(this._unsubscribeAll)
+			)
+			.subscribe(numberOfTeams => (this._numberOfTeams = numberOfTeams));
+	}
+
+	ngOnDestroy(): void {
+		this._unsubscribeAll.next();
+		this._unsubscribeAll.complete();
 	}
 
 	// --------------------------------------------------
@@ -98,7 +114,10 @@ export default class HomeComponent implements OnInit {
 
 		this._dialogService
 			.tournamentSetup({
-				optionsWithNumberOfTeams: options
+				optionsWithNumberOfTeams: options,
+				initialValue: {
+					numberOfTeams: this._numberOfTeams
+				}
 			})
 			.pipe(
 				filter(res => res != null),

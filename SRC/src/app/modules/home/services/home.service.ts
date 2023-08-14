@@ -34,6 +34,13 @@ export class HomeService {
 		return this._actions.asObservable();
 	}
 
+	/**
+	 * Getter - Number of teams
+	 */
+	public get numberOfTeams$(): Observable<number> {
+		return this._tournamentService.numberOfTeams$;
+	}
+
 	// --------------------------------------------------
 	// Public methods
 	// --------------------------------------------------

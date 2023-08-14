@@ -14,16 +14,22 @@
 	<!-- Content -->
 	<div class="flex py-4">
 
-		<!-- Number of teams -->
-		<mat-form-field class="flex-auto">
-			<mat-select placeholder="Quantidade de equipes">
-			  	<mat-option
-					*ngFor="let option of options"
-				  	[value]="option">
-					{{ option }} equipes
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
+		<form [formGroup]="form" class="flex-auto flex w-full">
+
+			<!-- Number of teams -->
+			<mat-form-field class="flex-auto">
+				<mat-select
+					placeholder="Quantidade de equipes"
+					[formControlName]="'numberOfTeams'">
+					  <mat-option
+					  	*ngFor="let option of options"
+						[value]="option">
+						{{ option }} equipes
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+		</form>
 
 	</div>
 
