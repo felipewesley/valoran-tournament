@@ -7,6 +7,7 @@ import { AppComponent } from './app/app.component';
 import { appRoutes } from './app/routes/app.routes';
 
 import { provideMatFormFieldDefaultAppearance } from 'app/shared/modules/material/providers/form-field';
+import { provideMatSnackBarOptions, provideMatSnackBarService } from 'app/shared/modules/material/providers/snack-bar';
 
 /**
  * Providing root component and router
@@ -24,9 +25,19 @@ bootstrapApplication(AppComponent, {
 		 */
 		provideAnimations(),
 
+		// --------------------------------------------------
+		// Material providers
+		// --------------------------------------------------
+
 		/**
-		 * Material providers
+		 * Form field
 		 */
-		provideMatFormFieldDefaultAppearance()
+		provideMatFormFieldDefaultAppearance(),
+
+		/**
+		 * Snack bar
+		 */
+		provideMatSnackBarService(),
+		provideMatSnackBarOptions()
 	]
 });
