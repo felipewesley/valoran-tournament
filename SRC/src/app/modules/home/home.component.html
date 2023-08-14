@@ -55,7 +55,8 @@
 		<app-home-action-item
 			*ngFor="let action of actions$ | async; trackBy: trackActionsFn"
 			class="w-80 h-full max-w-full"
-			[action]="action"></app-home-action-item>
+			[action]="action"
+			(onActionClick)="actionClicked($event)"></app-home-action-item>
 
 	</div>
 

@@ -3,6 +3,8 @@ import { Component, OnInit } from "@angular/core";
 
 import { MaterialModule } from "app/shared/modules/material";
 
+import { DialogService } from "app/core/dialog";
+
 import { ActionTypeEnum } from "app/domain/enums/home/action-type.enum";
 import { HomeActionListModel } from "app/domain/models/home/action-list.model";
 
@@ -32,7 +34,8 @@ export default class HomeComponent implements OnInit {
 	 * Constructor
 	 */
 	constructor(
-		private _service: HomeService
+		private _service: HomeService,
+		private _dialogService: DialogService
 	) { }
 
 	ngOnInit(): void {
@@ -46,6 +49,29 @@ export default class HomeComponent implements OnInit {
 	// --------------------------------------------------
 
 	/**
+	 * Action clicked - Callback
+	 * @param action
+	 */
+	public actionClicked(action: ActionTypeEnum): void {
+
+		switch(action) {
+
+			case ActionTypeEnum.GoToTournament:
+				break;
+
+			case ActionTypeEnum.ManageKeys:
+				break;
+
+			case ActionTypeEnum.ManageTeams:
+				break;
+
+			case ActionTypeEnum.SetupTournament:
+				this._tournamentSetup();
+				break;
+		}
+	}
+
+	/**
 	 * "Track by" function used in the actions loop
 	 * @param index
 	 * @param item
@@ -53,5 +79,17 @@ export default class HomeComponent implements OnInit {
 	 */
 	public trackActionsFn(index: number, item: HomeActionListModel): ActionTypeEnum | number {
 		return item.type | index;
+	}
+
+	// --------------------------------------------------
+	// Private methods
+	// --------------------------------------------------
+
+	/**
+	 * Setup the tournament
+	 */
+	private _tournamentSetup(): void {
+
+		this._dialogService.tournamentSetup();
 	}
 }
