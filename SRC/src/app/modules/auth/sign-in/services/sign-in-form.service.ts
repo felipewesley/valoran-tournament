@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
-import { SIGN_IN_CONSTANTS } from "app/domain/constants/login.constant";
+import { SIGN_IN_CONSTANTS } from "app/domain/constants/auth/login.constant";
 
 type FormValue = {
 	email: string;
