@@ -1,1 +1,47 @@
-SIGN-IN
+<div class="flex justify-center items-center w-screen h-screen bg-slate-100">
+
+	<!-- Container -->
+	<div class="flex flex-col gap-6 rounded-md bg-white p-6 w-96 max-w-full">
+
+		<header class="text-4xl font-light text-center">
+			Login
+		</header>
+
+		<mat-divider class="w-full"></mat-divider>
+
+		<form
+			[formGroup]="form"
+			class="flex-auto flex flex-col gap-4"
+			(ngSubmit)="onSubmit()">
+
+			<!-- Email -->
+			<mat-form-field>
+				<input
+					matInput
+					placeholder="Seu e-mail"
+					[formControlName]="'email'">
+			</mat-form-field>
+
+			<!-- Password -->
+			<mat-form-field>
+				<input
+					matInput
+					type="password"
+					placeholder="Sua senha"
+					[formControlName]="'password'">
+			</mat-form-field>
+
+			<!-- Submit -->
+			<button
+				mat-flat-button
+				[color]="'primary'"
+				type="submit">
+				Entrar
+			</button>
+
+		</form>
+
+
+	</div>
+
+</div>
