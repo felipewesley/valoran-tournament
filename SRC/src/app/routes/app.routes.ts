@@ -1,7 +1,6 @@
 import { Routes } from "@angular/router";
 
 import { LayoutType } from "../layout/types/layout.type";
-import LayoutComponent from "../layout/layout.component";
 
 /**
  * Application main routes
@@ -9,14 +8,21 @@ import LayoutComponent from "../layout/layout.component";
 export const appRoutes: Routes = [
 
 	/**
+	 * Redirects
+	 */
+	{
+		path: '',
+		pathMatch: 'full',
+		redirectTo: 'home'
+	},
+
+	/**
 	 * Auth routes
 	 */
 	{
 		path: '',
-		// component: LayoutComponent,
 		loadComponent: () => import('../layout/layout.component'),
 		data: {
-			teste: true,
 			layout: <LayoutType>'empty'
 		},
 		children: [
@@ -24,6 +30,25 @@ export const appRoutes: Routes = [
 			{
 				path: 'sign-in',
 				loadComponent: () => import('../modules/auth/sign-in/sign-in.component')
+			}
+
+		]
+	},
+
+	/**
+	 * Application routes
+	 */
+	{
+		path: '',
+		loadComponent: () => import('../layout/layout.component'),
+		data: {
+			layout: <LayoutType>'default'
+		},
+		children: [
+
+			{
+				path: 'home',
+				loadComponent: () => import('../modules/home/home.component')
 			}
 
 		]
