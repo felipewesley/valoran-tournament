@@ -4,7 +4,9 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 
 import { MaterialModule } from "app/shared/modules/material";
 
-import { Subject, switchMap, takeUntil } from "rxjs";
+import { Subject, filter, switchMap, takeUntil } from "rxjs";
+import { DialogService } from "app/core/dialog";
+import { NotificationService } from "app/core/notification";
 
 import { TeamModel } from "app/domain/models/tournament/team/team.model";
 
@@ -40,7 +42,9 @@ export default class TournamentTeamsSidenavComponent implements OnInit, AfterVie
 		@Optional() private _teamsContainerComponent: TournamentTeamsComponent,
 		private _router: Router,
 		private _activatedRoute: ActivatedRoute,
-		private _teamService: TournamentTeamsService
+		private _teamService: TournamentTeamsService,
+		private _dialogService: DialogService,
+		private _notificationService: NotificationService
 	) { }
 
 	ngOnInit(): void {
@@ -84,6 +88,33 @@ export default class TournamentTeamsSidenavComponent implements OnInit, AfterVie
 
 		// Close the sidebar
 		this._teamsContainerComponent.closeSidenav();
+	}
+
+	// --------------------------------------------------
+	// Public methods
+	// --------------------------------------------------
+
+	/**
+	 * Remove the team
+	 */
+	public removeTeam(): void {
+
+		const teamId = this.team?.teamId!;
+
+		this._dialogService.confirm(`Realmente deseja remover esta equipe do torneio?`)
+			.pipe(
+				filter(res => res),
+				switchMap(() => this._teamService.removeTeam(teamId))
+			)
+			.subscribe(() => {
+
+				this._notificationService.message('Equipe removida do torneio');
+
+				this._router
+					.navigate(['..'], {
+						relativeTo: this._activatedRoute
+					});
+			});
 	}
 }
 
