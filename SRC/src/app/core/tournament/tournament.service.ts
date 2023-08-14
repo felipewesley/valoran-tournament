@@ -43,6 +43,16 @@ export class CoreTournamentService {
 	// --------------------------------------------------
 
 	/**
+	 * Fetches a team from api by id
+	 * @param teamId
+	 * @returns
+	 */
+	public fetchTeamById(teamId: string): Observable<TeamModel> {
+
+		return this._fetchTeamById(teamId);
+	}
+
+	/**
 	 * Creates the team in the api and returns its id
 	 * @returns
 	 */
@@ -72,6 +82,20 @@ export class CoreTournamentService {
 	// --------------------------------------------------
 	// Private methods
 	// --------------------------------------------------
+
+	private _fetchTeamById(teamId: string): Observable<TeamModel> {
+
+		const team = this._teams
+			.getValue()
+			.slice()
+			.find(t => t.teamId == teamId);
+
+		// return this._http.get<TeamModel>(url)
+		return of(team!)
+			.pipe(
+				take(1)
+			);
+	}
 
 	private _createTeam(model: TeamCreationModel): Observable<string> {
 

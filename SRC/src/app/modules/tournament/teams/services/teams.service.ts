@@ -26,4 +26,18 @@ export class TournamentTeamsService {
 	public get teams$(): Observable<TeamModel[]> {
 		return this._tournamentService.teams$;
 	}
+
+	// --------------------------------------------------
+	// Public methods
+	// --------------------------------------------------
+
+	/**
+	 * Fetches a team from api
+	 * @param teamId
+	 * @returns
+	 */
+	public fetchTeamById(teamId: string): Observable<TeamModel> {
+
+		return this._tournamentService.fetchTeamById(teamId);
+	}
 }
