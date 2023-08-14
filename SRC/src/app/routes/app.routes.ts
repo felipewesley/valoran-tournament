@@ -52,7 +52,15 @@ export const appRoutes: Routes = [
 			},
 			{
 				path: 'tournament',
-				loadComponent: () => import('../modules/tournament/tournament.component')
+				loadComponent: () => import('../modules/tournament/tournament.component'),
+				children: [
+
+					{
+						path: 'teams',
+						loadComponent: () => import('../modules/tournament/teams/teams.component')
+					}
+
+				]
 			}
 
 		]
