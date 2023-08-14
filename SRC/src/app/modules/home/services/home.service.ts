@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 
 import { BehaviorSubject, Observable, map, of, take } from "rxjs";
 
+import { CoreTournamentService } from "app/core/tournament";
+
 import { HOME_CONSTANTS } from "app/domain/constants/home/home.constant";
 import { HomeActionListModel } from "app/domain/models/home/action-list.model";
 
@@ -17,7 +19,9 @@ export class HomeService {
 	/**
 	 * Constructor
 	 */
-	constructor() { }
+	constructor(
+		private _tournamentService: CoreTournamentService
+	) { }
 
 	// --------------------------------------------------
 	// Accessors
@@ -49,6 +53,15 @@ export class HomeService {
 					return void 0;
 				})
 			);
+	}
+
+	/**
+	 * Updates the number of teams
+	 * @param numberOfTeams
+	 */
+	public updateNumberOfTeams(numberOfTeams: number): Observable<void> {
+
+		return this._tournamentService.updatedNumberOfTeams(numberOfTeams);
 	}
 
 	// --------------------------------------------------

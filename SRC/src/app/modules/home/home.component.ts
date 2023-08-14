@@ -3,15 +3,16 @@ import { Component, OnInit } from "@angular/core";
 
 import { MaterialModule } from "app/shared/modules/material";
 
+import { filter, switchMap } from "rxjs";
 import { DialogService } from "app/core/dialog";
+import { NotificationService } from "app/core/notification";
 
 import { ActionTypeEnum } from "app/domain/enums/home/action-type.enum";
 import { HomeActionListModel } from "app/domain/models/home/action-list.model";
+import { TOURNAMENT_CONSTANTS } from "app/domain/constants/tournament/tournament.constant";
 
 import { HomeService } from "./services/home.service";
 import { HomeActionItemComponent } from "./components/action-item/action-item.component";
-import { TOURNAMENT_CONSTANTS } from "app/domain/constants/tournament/tournament.constant";
-import { filter } from "rxjs";
 
 @Component({
 	selector: 'app-home',
@@ -37,7 +38,8 @@ export default class HomeComponent implements OnInit {
 	 */
 	constructor(
 		private _service: HomeService,
-		private _dialogService: DialogService
+		private _dialogService: DialogService,
+		private _notificationService: NotificationService
 	) { }
 
 	ngOnInit(): void {
@@ -99,7 +101,20 @@ export default class HomeComponent implements OnInit {
 				optionsWithNumberOfTeams: options
 			})
 			.pipe(
-				filter(res => res != null)
-			);
+				filter(res => res != null),
+				switchMap(res => {
+
+					return this._dialogService.confirm('Realmente deseja atualizar a quantidade de equipes do torneio?')
+						.pipe(
+							filter(res => res),
+							switchMap(() => this._service.updateNumberOfTeams(res.numberOfTeams))
+						);
+				}),
+			)
+			.subscribe(() => {
+
+				// Show notification
+				this._notificationService.message('A quantidade de equipes foi atualizada');
+			});
 	}
 }

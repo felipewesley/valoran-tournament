@@ -3,9 +3,11 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, of, take, tap } from "rxjs";
 
 import { Guid } from "app/common/types/guid";
+import { IKeyValuePair } from "app/common/types/key-value-pair";
 
 import { TeamModel } from "app/domain/models/tournament/team/team.model";
 import { TeamCreationModel } from "app/domain/models/tournament/team/team-creation.model";
+import { TOURNAMENT_CONSTANTS } from "app/domain/constants/tournament/tournament.constant";
 
 /**
  * ### Tournament service (`core`)
@@ -19,7 +21,12 @@ export class CoreTournamentService {
 	// Properties
 	// --------------------------------------------------
 
+	private _numberOfTeams = new BehaviorSubject<number>(TOURNAMENT_CONSTANTS.defaultNumberOfTeams);
+
 	private _teams = new BehaviorSubject<TeamModel[]>([]);
+
+	private _teamsByKey = new BehaviorSubject<IKeyValuePair<string, string[]>[]>([]);
+
 
 	/**
 	 * Constructor
@@ -38,9 +45,33 @@ export class CoreTournamentService {
 		return this._teams.asObservable();
 	}
 
+	/**
+	 * Getter - Number of teams
+	 */
+	public get numberOfTeams$(): Observable<number> {
+
+		return this._numberOfTeams.asObservable();
+	}
+
 	// --------------------------------------------------
 	// Public methods
 	// --------------------------------------------------
+
+	/**
+	 * Updates the number of accepted teams in the tournament
+	 * @param numberOfTeams
+	 * @returns
+	 */
+	public updatedNumberOfTeams(numberOfTeams: number): Observable<void> {
+
+		return this._updateNumberOfTeams(numberOfTeams)
+			.pipe(
+				tap(() => {
+
+					this._numberOfTeams.next(numberOfTeams);
+				})
+			);
+	}
 
 	/**
 	 * Fetches a team from api by id
@@ -132,6 +163,15 @@ export class CoreTournamentService {
 	private _removeTeam(teamId: string): Observable<void> {
 
 		// return this._http.delete<void>(url)
+		return of(void 0)
+			.pipe(
+				take(1)
+			);
+	}
+
+	private _updateNumberOfTeams(numberOfTeams: number): Observable<void> {
+
+		// return this._http.put<void>(url, numberOfTeams)
 		return of(void 0)
 			.pipe(
 				take(1)
