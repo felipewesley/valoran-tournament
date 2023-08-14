@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { MaterialModule } from "app/shared/modules/material";
 
+import { NotificationService } from "app/core/notification";
+
 import { SignInFormService } from "./services/sign-in-form.service";
 
 @Component({
@@ -36,7 +38,8 @@ export default class SignInComponent implements OnInit {
 	constructor(
 		private _formService: SignInFormService,
 		private _router: Router,
-		private _activatedRoute: ActivatedRoute
+		private _activatedRoute: ActivatedRoute,
+		private _notificationService: NotificationService
 	) { }
 
 	ngOnInit(): void {
@@ -52,7 +55,14 @@ export default class SignInComponent implements OnInit {
 	 */
 	public onSubmit(): void {
 
-		console.log('onsubmit', this.form.getRawValue());
+		console.log('[FORM_VALUE]:', this.form.getRawValue());
+
+		if (this.form.invalid) {
+
+			this._notificationService.error('Formulário inválido!');
+
+			return void 0;
+		}
 
 		this._router
 			.navigate([''], {
