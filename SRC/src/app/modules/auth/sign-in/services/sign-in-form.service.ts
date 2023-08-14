@@ -1,14 +1,18 @@
 import { Injectable } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
+import { SIGN_IN_CONSTANTS } from "app/domain/constants/login.constant";
+
 type FormValue = {
 	email: string;
 	password: string;
+	rememberMe: boolean;
 };
 
 type FormType = {
 	email: FormControl<FormValue['email']>;
 	password: FormControl<FormValue['password']>;
+	rememberMe: FormControl<FormValue['rememberMe']>;
 };
 
 @Injectable()
@@ -40,6 +44,23 @@ export class SignInFormService {
 	}
 
 	// --------------------------------------------------
+	// Public methods
+	// --------------------------------------------------
+
+	/**
+	 * Auto complete the login fields with default values
+	 */
+	public autoFillLoginInfo(): void {
+
+		const defaultLogin = SIGN_IN_CONSTANTS.defaultLogin;
+
+		this._form.patchValue({
+			email: defaultLogin.email,
+			password: defaultLogin.password
+		});
+	}
+
+	// --------------------------------------------------
 	// Private methods
 	// --------------------------------------------------
 
@@ -61,7 +82,8 @@ export class SignInFormService {
 				validators: [
 					Validators.required
 				]
-			})
+			}),
+			rememberMe: this._fb.control(false)
 
 		}) as FormGroup<FormType>;
 

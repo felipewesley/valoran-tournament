@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { MaterialModule } from "app/shared/modules/material";
 
+import { Subject, takeUntil } from "rxjs";
 import { NotificationService } from "app/core/notification";
 
 import { SignInFormService } from "./services/sign-in-form.service";
@@ -24,13 +25,16 @@ import { SignInFormService } from "./services/sign-in-form.service";
 		SignInFormService
 	]
 })
-export default class SignInComponent implements OnInit {
+export default class SignInComponent implements OnInit, OnDestroy {
 
 	// --------------------------------------------------
 	// Properties
 	// --------------------------------------------------
 
 	public readonly form = this._formService.form;
+
+	// Unsubscription
+	private _unsubscribeAll = new Subject<void>();
 
 	/**
 	 * Constructor
@@ -44,6 +48,20 @@ export default class SignInComponent implements OnInit {
 
 	ngOnInit(): void {
 
+		this.form.get('rememberMe')?.valueChanges
+			.pipe(
+				takeUntil(this._unsubscribeAll)
+			)
+			.subscribe(checked => {
+
+				if (checked)
+					this._formService.autoFillLoginInfo();
+			});
+	}
+
+	ngOnDestroy(): void {
+		this._unsubscribeAll.next();
+		this._unsubscribeAll.complete();
 	}
 
 	// --------------------------------------------------
