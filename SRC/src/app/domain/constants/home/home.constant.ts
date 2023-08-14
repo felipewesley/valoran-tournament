@@ -24,7 +24,7 @@ export const HOME_CONSTANTS = {
 			{
 				type: ActionTypeEnum.SetupTournament,
 				title: 'Configurar o torneio',
-				icon: 'home',
+				icon: 'settings',
 				description: 'Aplique algumas configurações gerais ao torneio antes de iniciá-lo.',
 				enabled: true
 			},

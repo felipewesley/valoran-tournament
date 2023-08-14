@@ -1,1 +1,49 @@
-Hello world!
+<div class="flex-auto flex flex-col gap-2 p-4">
+
+	<header class="flex-auto flex items-center gap-4">
+		<mat-icon
+			[fontIcon]="'settings'"></mat-icon>
+
+		<span class="font-semibold text-lg">
+			Configuração do torneio
+		</span>
+	</header>
+
+	<mat-divider class="w-full mt-4"></mat-divider>
+
+	<!-- Content -->
+	<div class="flex py-4">
+
+		<!-- Number of teams -->
+		<mat-form-field class="flex-auto">
+			<mat-select placeholder="Quantidade de equipes">
+			  	<mat-option
+					*ngFor="let option of options"
+				  	[value]="option">
+					{{ option }} equipes
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+	</div>
+
+	<div class="flex-auto flex items-center justify-end gap-4">
+
+		<!-- Cancel -->
+		<button
+			mat-button
+			[mat-dialog-close]="null">
+			Cancelar
+		</button>
+
+		<!-- Save -->
+		<button
+			mat-flat-button
+			[color]="'primary'"
+			(click)="save()">
+			Salvar
+		</button>
+
+	</div>
+
+</div>

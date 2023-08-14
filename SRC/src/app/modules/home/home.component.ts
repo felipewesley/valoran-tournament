@@ -10,6 +10,8 @@ import { HomeActionListModel } from "app/domain/models/home/action-list.model";
 
 import { HomeService } from "./services/home.service";
 import { HomeActionItemComponent } from "./components/action-item/action-item.component";
+import { TOURNAMENT_CONSTANTS } from "app/domain/constants/tournament/tournament.constant";
+import { filter } from "rxjs";
 
 @Component({
 	selector: 'app-home',
@@ -90,6 +92,14 @@ export default class HomeComponent implements OnInit {
 	 */
 	private _tournamentSetup(): void {
 
-		this._dialogService.tournamentSetup();
+		const options = TOURNAMENT_CONSTANTS.availableNumberOfTeams;
+
+		this._dialogService
+			.tournamentSetup({
+				optionsWithNumberOfTeams: options
+			})
+			.pipe(
+				filter(res => res != null)
+			);
 	}
 }

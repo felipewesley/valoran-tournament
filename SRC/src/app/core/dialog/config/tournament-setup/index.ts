@@ -11,7 +11,7 @@ const defaultConfig = {
         return {
             width: '600px',
             maxWidth: '90vw',
-            disableClose: false,
+            disableClose: true,
             panelClass: []
         };
     }

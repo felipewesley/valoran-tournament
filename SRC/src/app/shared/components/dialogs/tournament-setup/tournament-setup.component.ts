@@ -1,9 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 import { MaterialModule } from "app/shared/modules/material";
 
 import { TournamentSetupDialogFormService } from "./services/tournament-setup-form.service";
+import { TournamentSetupDialogInput, TournamentSetupDialogResult } from "./tournament-setup.types";
 
 @Component({
 	selector: 'app-tournament-setup-dialog',
@@ -26,14 +28,40 @@ export class TournamentSetupDialogComponent implements OnInit {
 
 	public readonly form = this._formService.form;
 
+	public readonly options: number[] = [];
+
 	/**
 	 * Constructor
 	 */
 	constructor(
-		private _formService: TournamentSetupDialogFormService
-	) { }
+		private _formService: TournamentSetupDialogFormService,
+		@Inject(MAT_DIALOG_DATA) data: TournamentSetupDialogInput,
+		private _dialogRef: MatDialogRef<TournamentSetupDialogComponent, TournamentSetupDialogResult>
+	) {
+		const { optionsWithNumberOfTeams } = data;
+
+		this.options = optionsWithNumberOfTeams ?? [];
+	}
 
 	ngOnInit(): void {
 
+	}
+
+	// --------------------------------------------------
+	// Public methods
+	// --------------------------------------------------
+
+	/**
+	 * Save the operation
+	 */
+	public save(): void {
+
+		const formValue = this._formService.getValue();
+
+		const result: TournamentSetupDialogResult = {
+			numberOfTeams: formValue.numberOfTeams
+		};
+
+		this._dialogRef.close(result);
 	}
 }
