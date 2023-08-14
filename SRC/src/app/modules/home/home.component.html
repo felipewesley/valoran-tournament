@@ -1,0 +1,62 @@
+<div class="flex flex-col items-center justify-center gap-6 p-12">
+
+	<header class="font-light text-4xl">
+		Página inicial
+	</header>
+
+	<mat-divider class="w-full"></mat-divider>
+
+
+
+	<!-- Actions -->
+	<div class="grid grid-cols-2 grid-rows-2 gap-6">
+
+		<!-- Grid first row -->
+		<div class="col-span-2 row-span-full">
+
+			<div class="flex items-center gap-4">
+
+				<div class="flex items-center justify-center w-14 h-14 bg-yellow-100 text-yellow-600 rounded-full">
+					<mat-icon
+						class="scale-125"
+						[fontIcon]="'emoji_objects'"></mat-icon>
+				</div>
+
+				<div class="flex flex-col gap-px">
+					<p class="text-xl font-medium">
+						O que você deseja fazer?
+					</p>
+					<p class="text-sm text-gray-500">
+						Selecione abaixo uma ação que deseja realizar
+					</p>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- IR AO TORNEIO -->
+			<!-- INICIAR -->
+			<!-- ACOMPANHAR -->
+
+		<!-- CONFIGURAR O TORNEIO -->
+			<!-- NUMERO DE EQUIPES -->
+			<!-- (FLAG) INFORMAR PLACAR AO AVANÇAR ETAPA (em pontos) -->
+
+		<!-- GERENCIAR EQUIPES -->
+			<!-- NOVA EQUIPE -->
+			<!-- LISTA DE EQUIPES -->
+			<!-- REMOVER UMA EQUIPE -->
+			<!-- EDITAR UMA EQUIPE -->
+
+		<!-- GERENCIAR CHAVES -->
+			<!-- DISTRIBUIR EQUIPES POR CHAVE -->
+
+		<app-home-action-item
+			*ngFor="let action of actions$ | async; trackBy: trackActionsFn"
+			class="w-80 h-full max-w-full"
+			[action]="action"></app-home-action-item>
+
+	</div>
+
+</div>
