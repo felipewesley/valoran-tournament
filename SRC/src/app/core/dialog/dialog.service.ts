@@ -2,7 +2,7 @@ import { ComponentType } from "@angular/cdk/portal";
 import { Injectable } from "@angular/core";
 import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dialog";
 
-import { Observable, map, take } from "rxjs";
+import { Observable, map, of, take } from "rxjs";
 
 import { tournamentSetupDialogConfig } from "./config/tournament-setup";
 import { teamFormDialogConfig } from "./config/team-form";
@@ -33,6 +33,22 @@ export class DialogService {
 	constructor(
 		private _matDialog: MatDialog
 	) { }
+
+	// --------------------------------------------------
+	// Confirmation dialog
+	// --------------------------------------------------
+
+	/**
+	 * Confirmation dialog
+	 * @param message
+	 */
+	public confirm(message: string): Observable<boolean>;
+	public confirm(message: string): Observable<boolean> {
+
+		const confirmation = confirm(message);
+
+		return of(confirmation);
+	}
 
 	// --------------------------------------------------
 	// Tournament setup dialog
