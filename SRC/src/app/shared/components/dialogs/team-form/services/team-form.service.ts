@@ -60,8 +60,9 @@ export class TeamFormDialogFormService {
 	public getValue(): FormValue {
 
 		const value: FormValue = {
-
-		} as FormValue;
+			name: this._form.get('name')!.value,
+			members: this._form.get('members')!.value
+		};
 
 		return value;
 	}

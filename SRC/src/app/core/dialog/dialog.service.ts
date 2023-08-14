@@ -5,12 +5,18 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material/dial
 import { Observable, map, take } from "rxjs";
 
 import { tournamentSetupDialogConfig } from "./config/tournament-setup";
+import { teamFormDialogConfig } from "./config/team-form";
 
 import {
 	TournamentSetupDialogComponent,
 	TournamentSetupDialogInput,
 	TournamentSetupDialogResult
 } from "app/shared/components/dialogs/tournament-setup";
+import {
+	TeamFormDialogComponent,
+	TeamFormDialogInput,
+	TeamFormDialogResult
+} from "app/shared/components/dialogs/team-form";
 
 /**
  * ### Application dialog service
@@ -55,6 +61,36 @@ export class DialogService {
 			.pipe(
 				map(res => res!),
 				take(1),
+			);
+	}
+
+	// --------------------------------------------------
+	// Team form dialog
+	// --------------------------------------------------
+
+	/**
+	 * Opens the team creation form
+	 */
+	public teamForm(): Observable<TeamFormDialogResult>;
+	/**
+	 * Opens the team edition form
+	 * @param input
+	 */
+	public teamForm(input: TeamFormDialogInput): Observable<TeamFormDialogResult>;
+	public teamForm(input?: TeamFormDialogInput): Observable<TeamFormDialogResult> {
+
+		const config = teamFormDialogConfig.getConfig();
+
+		return this
+			._open<TeamFormDialogComponent, TeamFormDialogResult, TeamFormDialogInput>(
+				TeamFormDialogComponent,
+				input!,
+				config
+			)
+			.afterClosed()
+			.pipe(
+				map(res => res!),
+				take(1)
 			);
 	}
 
