@@ -171,6 +171,12 @@ export class CoreTournamentService {
 
 	private _updateNumberOfTeams(numberOfTeams: number): Observable<void> {
 
+		/**
+		 * Back-end validation
+		 */
+		if (numberOfTeams < this._teams.getValue().length)
+			throw new Error('Não é possível diminuir a quantidade de equipes pois já há mais equipes cadastradas.');
+
 		// return this._http.put<void>(url, numberOfTeams)
 		return of(void 0)
 			.pipe(
