@@ -1,0 +1,106 @@
+<div class="flex-auto flex flex-col gap-2 p-4">
+
+	<header class="flex-auto flex items-center gap-4">
+		<mat-icon
+			[fontIcon]="'group'"></mat-icon>
+
+		<span class="font-semibold text-lg">
+			<span *ngIf="isEdition">
+				Edição de equipe
+			</span>
+			<span *ngIf="!isEdition">
+				Criação de equipe
+			</span>
+		</span>
+	</header>
+
+	<mat-divider class="w-full mt-4"></mat-divider>
+
+	<!-- Content -->
+	<div class="flex py-4">
+
+		<form [formGroup]="form" class="flex-auto flex flex-col gap-2" (ngSubmit)="save()">
+
+			<!-- Name -->
+			<mat-form-field class="flex-auto">
+				<input
+					matInput
+					type="text"
+					[formControlName]="'name'"
+					placeholder="Nome da equipe">
+			</mat-form-field>
+
+			<div class="flex flex-col gap-2">
+
+				<header class="flex items-center p-2 px-4 bg-gray-100 rounded-md">
+					<span class="font-medium">
+						Participantes
+					</span>
+					<button
+						class="ml-auto"
+						mat-icon-button
+						[color]="'primary'"
+						type="button"
+						[matTooltip]="'Adicionar participante'"
+						(click)="addMember()">
+						<mat-icon
+							[fontIcon]="'add'"></mat-icon>
+					</button>
+				</header>
+
+				<div class="flex-auto flex flex-col gap-px">
+
+					<div
+						*ngFor="let control of membersForm.controls; index as i"
+						class="flex-auto flex items-center gap-2">
+
+						<!-- Member name -->
+						<mat-form-field class="flex-auto">
+							<input
+								matInput
+								type="text"
+								[formControlName]="'name'"
+								placeholder="Nome do participante">
+						</mat-form-field>
+
+						<!-- Remove -->
+						<button
+							mat-icon-button
+							type="button"
+							[matTooltip]="'Remover parcipante'"
+							(click)="removeMember(i)"
+							[disabled]="membersForm.controls.length == 1">
+							<mat-icon
+								[fontIcon]="'delete'"></mat-icon>
+						</button>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</form>
+
+	</div>
+
+	<div class="flex-auto flex items-center justify-end gap-4">
+
+		<!-- Cancel -->
+		<button
+			mat-button
+			[mat-dialog-close]="null">
+			Cancelar
+		</button>
+
+		<!-- Save -->
+		<button
+			mat-flat-button
+			[color]="'primary'"
+			(click)="save()">
+			Salvar
+		</button>
+
+	</div>
+
+</div>
