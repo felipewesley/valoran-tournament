@@ -53,6 +53,27 @@ export class CoreTournamentService {
 	}
 
 	/**
+	 * Removes a team from the tournament
+	 * @param teamId
+	 * @returns
+	 */
+	public removeTeam(teamId: string): Observable<void> {
+
+		return this._removeTeam(teamId)
+			.pipe(
+				tap(() => {
+
+					const teams = this._teams
+						.getValue()
+						.filter(t => t.teamId != teamId);
+
+					// Update the teams list
+					this._teams.next(teams);
+				})
+			);
+	}
+
+	/**
 	 * Creates the team in the api and returns its id
 	 * @returns
 	 */
@@ -103,6 +124,15 @@ export class CoreTournamentService {
 
 		// return this._http.post<string>(url, model)
 		return of(teamId)
+			.pipe(
+				take(1)
+			);
+	}
+
+	private _removeTeam(teamId: string): Observable<void> {
+
+		// return this._http.delete<void>(url)
+		return of(void 0)
 			.pipe(
 				take(1)
 			);

@@ -40,4 +40,14 @@ export class TournamentTeamsService {
 
 		return this._tournamentService.fetchTeamById(teamId);
 	}
+
+	/**
+	 * Removes a team from the tournament
+	 * @param teamId
+	 * @returns
+	 */
+	public removeTeam(teamId: string): Observable<void> {
+
+		return this._tournamentService.removeTeam(teamId);
+	}
 }
