@@ -18,7 +18,8 @@ export const HOME_CONSTANTS = {
 				title: 'Ir ao torneio',
 				icon: 'emoji_events',
 				description: 'Esta ação permite que você avance para o módulo de gerenciamento do torneio, podendo iniciá-lo ou acompanhá-lo.',
-				enabled: true
+				enabled: true,
+				url: '/tournament/start'
 			},
 			{
 				type: ActionTypeEnum.SetupTournament,
@@ -32,14 +33,16 @@ export const HOME_CONSTANTS = {
 				title: 'Gerenciar equipes',
 				icon: 'groups',
 				description: 'Aqui você poderá gerenciar as equipes envolvidas no torneio, podendo adicionar, editar e remover equipes.',
-				enabled: true
+				enabled: true,
+				url: '/tournament/teams'
 			},
 			{
 				type: ActionTypeEnum.ManageKeys,
 				title: 'Gerenciar chaves',
 				icon: 'schema',
 				description: 'Organize e distribua as equipes em chaves para iniciar o torneio adequadamente.',
-				enabled: true
+				enabled: true,
+				url: '/tournament/keys'
 			},
 		];
 	}

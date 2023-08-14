@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
 import { MaterialModule } from "app/shared/modules/material";
 
@@ -13,7 +14,8 @@ import { HomeActionListModel } from "app/domain/models/home/action-list.model";
 	standalone: true,
 	imports: [
 		CommonModule,
-		MaterialModule
+		MaterialModule,
+		RouterModule
 	]
 })
 export class HomeActionItemComponent implements OnInit {
@@ -53,6 +55,9 @@ export class HomeActionItemComponent implements OnInit {
 	 * Action clicked callback
 	 */
 	public actionClicked(): void {
+
+		if (this.action.url)
+			return void 0;
 
 		const action = this.action.type;
 
