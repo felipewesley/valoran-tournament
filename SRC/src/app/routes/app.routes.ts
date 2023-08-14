@@ -49,6 +49,10 @@ export const appRoutes: Routes = [
 			{
 				path: 'home',
 				loadComponent: () => import('../modules/home/home.component')
+			},
+			{
+				path: 'tournament',
+				loadComponent: () => import('../modules/tournament/tournament.component')
 			}
 
 		]
