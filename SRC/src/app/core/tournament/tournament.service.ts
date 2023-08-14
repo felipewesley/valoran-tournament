@@ -19,7 +19,7 @@ export class CoreTournamentService {
 	// Properties
 	// --------------------------------------------------
 
-	private _teams = new BehaviorSubject<TeamModel[]>([{} as TeamModel, {} as TeamModel, {} as TeamModel]);
+	private _teams = new BehaviorSubject<TeamModel[]>([]);
 
 	/**
 	 * Constructor

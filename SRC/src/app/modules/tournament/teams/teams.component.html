@@ -50,9 +50,21 @@
 
 			</header>
 
-			<div class="flex flex-col">
+			<mat-divider class="w-full"></mat-divider>
 
-				<ng-container *ngFor="let team of teams$ | async; first as isFirst">
+			<div *ngIf="teams$ | async as teams" class="flex flex-col">
+
+				<div
+					*ngIf="teams.length == 0"
+					class="flex-auto flex items-center justify-center gap-2 text-2xl font-semibold py-6 px-2">
+					<mat-icon
+						[fontIcon]="'info'"></mat-icon>
+					<span>
+						Não há equipes para exibir!
+					</span>
+				</div>
+
+				<ng-container *ngFor="let team of teams; first as isFirst">
 
 					<mat-divider *ngIf="isFirst" class="w-full"></mat-divider>
 
@@ -70,14 +82,14 @@
 
 						<div class="flex flex-col gap-1">
 							<p class="font-medium text-lg">
-								Nome do time do torneio
+								{{ team.name }}
 							</p>
 							<p class="text-xs">
 								<span class="text-gray-500">
 									Criado em
 								</span>
 								<span>
-									{{ '2023-08-14T08:48:45.120Z' | date }}
+									{{ team.creationDateTime | date: 'dd/MM/yyyy' }} às {{ team.creationDateTime | date: 'hh:mm' }}
 								</span>
 							</p>
 						</div>
