@@ -1,6 +1,8 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { importProvidersFrom } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app/app.component';
 
@@ -24,6 +26,13 @@ bootstrapApplication(AppComponent, {
 		 * Browser animation dependencies
 		 */
 		provideAnimations(),
+
+		/**
+		 * Providers from modules
+		 */
+		importProvidersFrom([
+			MatDialogModule
+		]),
 
 		// --------------------------------------------------
 		// Material providers
