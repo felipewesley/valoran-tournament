@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { AfterViewInit, Component, OnDestroy, OnInit, Optional } from "@angular/core";
+import { RouterModule } from "@angular/router";
+
+import { MaterialModule } from "app/shared/modules/material";
 
 import TournamentTeamsComponent from "../teams.component";
 
@@ -9,7 +12,9 @@ import TournamentTeamsComponent from "../teams.component";
 	styleUrls: [],
 	standalone: true,
 	imports: [
-		CommonModule
+		CommonModule,
+		RouterModule,
+		MaterialModule,
 	]
 })
 export default class TournamentTeamsSidenavComponent implements OnInit, AfterViewInit, OnDestroy {

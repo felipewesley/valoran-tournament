@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, HostBinding, OnInit } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
 	selector: 'app-tournament',
@@ -7,10 +8,13 @@ import { Component, OnInit } from "@angular/core";
 	styleUrls: [],
 	standalone: true,
 	imports: [
-		CommonModule
+		CommonModule,
+		RouterOutlet
 	]
 })
 export default class TournamentComponent implements OnInit {
+
+	@HostBinding('class') public readonly classes = ['min-h-full'];
 
 	/**
 	 * Constructor

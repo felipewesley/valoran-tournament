@@ -1,1 +1,51 @@
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, corporis officia nisi ipsum amet ducimus temporibus quod quaerat dolor? Voluptatibus, omnis accusantium magni porro aperiam sint quaerat numquam fugiat! Saepe!
+<div class="relative flex flex-col gap-4 px-4 py-6">
+
+	<!-- Close -->
+	<button
+		mat-icon-button
+		class="absolute top-4 right-0"
+		[routerLink]="['../']"
+		[matTooltip]="'Fechar'">
+		<mat-icon
+			[fontIcon]="'close'"></mat-icon>
+	</button>
+
+	<div class="flex items-center justify-center w-28 h-28 rounded-full bg-indigo-200 text-indigo-600 mx-auto">
+		<span class="text-5xl font-semibold">
+			A
+		</span>
+	</div>
+
+	<!-- Team name -->
+	<div class="truncate text-center">
+		<p class="truncate text-2xl font-medium">
+			Nome do time do torneio
+		</p>
+	</div>
+
+	<!-- Members -->
+	<div class="flex flex-col gap-2 px-4">
+
+		<div
+			*ngFor="let member of [1, 2, 3, 4, 5]; last as isLast"
+			class="flex flex-col gap-2">
+
+			<mat-divider class="w-full"></mat-divider>
+
+			<div class="flex items-center gap-2 py-1 px-2">
+				<mat-icon
+					[color]="'primary'"
+					[fontIcon]="'person'"></mat-icon>
+				<span class="text-sm">
+					Leonardo da Silva
+				</span>
+
+			</div>
+
+			<mat-divider *ngIf="isLast" class="w-full"></mat-divider>
+
+		</div>
+
+	</div>
+
+</div>
