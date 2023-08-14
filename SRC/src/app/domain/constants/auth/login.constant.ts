@@ -1,7 +1,8 @@
-import { SignInModel } from "../models/auth/sign-in.model";
+import { SignInModel } from "../../models/auth/sign-in.model";
 
 /**
  * Sign-in constant values
+ * @constant
  */
 export const SIGN_IN_CONSTANTS = {
 
