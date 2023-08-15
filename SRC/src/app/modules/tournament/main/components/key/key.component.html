@@ -1,0 +1,74 @@
+<article class="flex flex-col rounded-md shadow-md overflow-hidden">
+
+	<!-- Key title -->
+	<header class="w-full text-center p-2 uppercase bg-indigo-100 text-lg font-medium">
+		{{ data.keyName }}
+	</header>
+
+	<!-- Result -->
+	<section class="flex items-center justify-center" *ngIf="data.isResultKey">
+
+		<div
+			matRipple
+			class="p-4 flex-auto flex items-center justify-center">
+
+			<div class="flex items-center justify-center w-12 h-12 rounded-full text-yellow-600 bg-yellow-100">
+				<mat-icon
+					class="scale-125 text-current"
+					[fontIcon]="'emoji_events'"></mat-icon>
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- Content -->
+	<section class="flex flex-col text-sm" *ngIf="!data.isResultKey">
+
+		<!-- Team 1 -->
+		<div
+			matRipple
+			class="flex-auto flex p-2 px-4 select-none cursor-pointer hover:bg-indigo-50">
+
+			<div *ngIf="data.team1" class="flex items-center gap-2">
+				<mat-icon
+					class="scale-90"
+					[color]="'primary'"
+					[fontIcon]="'groups'"></mat-icon>
+				<span>
+					{{ data.team1 | customPrint: teams: 'teamId:name' }}
+				</span>
+			</div>
+
+			<span *ngIf="!data.team1" class="text-gray-500">
+				Nenhuma equipe aqui ainda :(
+			</span>
+
+		</div>
+
+		<mat-divider class="w-full"></mat-divider>
+
+		<!-- Team 2 -->
+		<div
+			matRipple
+			class="flex-auto flex p-2 px-4 select-none cursor-pointer hover:bg-indigo-50">
+
+			<div *ngIf="data.team2" class="flex items-center gap-2">
+				<mat-icon
+					class="scale-90"
+					[color]="'primary'"
+					[fontIcon]="'groups'"></mat-icon>
+				<span>
+					{{ data.team2 | customPrint: teams: 'teamId:name' }}
+				</span>
+			</div>
+
+			<span *ngIf="!data.team2" class="text-gray-500">
+				Nenhuma equipe aqui ainda :(
+			</span>
+
+		</div>
+
+	</section>
+
+</article>

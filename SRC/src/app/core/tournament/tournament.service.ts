@@ -67,7 +67,7 @@ export class CoreTournamentService {
 			.pipe(
 				map(numberOfTeams => {
 
-					return Math.round(numberOfTeams / 2);
+					return Math.round(numberOfTeams / TOURNAMENT_CONSTANTS.numberOfMembersByTeam);
 				})
 			);
 	}
