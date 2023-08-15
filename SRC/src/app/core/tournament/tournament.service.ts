@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, Observable, of, take, tap } from "rxjs";
+import { BehaviorSubject, Observable, map, of, take, tap } from "rxjs";
 
 import { Guid } from "app/common/types/guid";
-import { IKeyValuePair } from "app/common/types/key-value-pair";
+import { Utils } from "../utils/utils";
 
 import { TeamModel } from "app/domain/models/tournament/team/team.model";
 import { TeamCreationModel } from "app/domain/models/tournament/team/team-creation.model";
+import { TournamentKeyModel } from "app/domain/models/tournament/key/key.model";
 import { TOURNAMENT_CONSTANTS } from "app/domain/constants/tournament/tournament.constant";
 
 /**
@@ -21,17 +22,21 @@ export class CoreTournamentService {
 	// Properties
 	// --------------------------------------------------
 
-	private _numberOfTeams = new BehaviorSubject<number>(TOURNAMENT_CONSTANTS.defaultNumberOfTeams);
+	private _numberOfTeams = new BehaviorSubject<number>(null);
 
 	private _teams = new BehaviorSubject<TeamModel[]>([]);
 
-	private _teamsByKey = new BehaviorSubject<IKeyValuePair<string, string[]>[]>([]);
-
+	private _keys = new BehaviorSubject<TournamentKeyModel[]>([]);
 
 	/**
 	 * Constructor
 	 */
-	constructor() { }
+	constructor() {
+
+		// Init the default number of teams
+		this.updatedNumberOfTeams(TOURNAMENT_CONSTANTS.defaultNumberOfTeams)
+			.subscribe();
+	}
 
 	// --------------------------------------------------
 	// Accessors
@@ -53,9 +58,47 @@ export class CoreTournamentService {
 		return this._numberOfTeams.asObservable();
 	}
 
+	/**
+	 * Getter - Number of keys of the tournament
+	 */
+	public get numberOfKeys$(): Observable<number> {
+
+		return this._numberOfTeams.asObservable()
+			.pipe(
+				map(numberOfTeams => {
+
+					return Math.round(numberOfTeams / 2);
+				})
+			);
+	}
+
+	/**
+	 * Getter - Tournament keys
+	 */
+	public get tournamentKeys$(): Observable<TournamentKeyModel[]> {
+
+		return this._keys.asObservable();
+	}
+
 	// --------------------------------------------------
 	// Public methods
 	// --------------------------------------------------
+
+	/**
+	 * Updates the mapping of teams by key
+	 * @param teamsByKey
+	 * @returns
+	 */
+	public updateKeys(keys: TournamentKeyModel[]): Observable<void> {
+
+		return this._updateKeys(keys)
+			.pipe(
+				tap(() => {
+
+					this._keys.next(keys);
+				})
+			);
+	}
 
 	/**
 	 * Updates the number of accepted teams in the tournament
@@ -69,6 +112,19 @@ export class CoreTournamentService {
 				tap(() => {
 
 					this._numberOfTeams.next(numberOfTeams);
+
+					const numberOfKeys = numberOfTeams / 2;
+
+					// Update the keys
+					const newKeys: TournamentKeyModel[] = Utils
+						.generateTeamsKeys(numberOfKeys)
+						.map(key => ({
+							key: key,
+							team1: null,
+							team2: null
+						}));
+
+					this._keys.next(newKeys);
 				})
 			);
 	}
@@ -178,6 +234,15 @@ export class CoreTournamentService {
 			throw new Error('Não é possível diminuir a quantidade de equipes pois já há mais equipes cadastradas.');
 
 		// return this._http.put<void>(url, numberOfTeams)
+		return of(void 0)
+			.pipe(
+				take(1)
+			);
+	}
+
+	private _updateKeys(keys: TournamentKeyModel[]): Observable<void> {
+
+		// return this._http.put<void>(url, teamsByKey)
 		return of(void 0)
 			.pipe(
 				take(1)

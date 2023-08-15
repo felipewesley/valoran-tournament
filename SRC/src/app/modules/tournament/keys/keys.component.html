@@ -1,0 +1,141 @@
+<header class="flex items-center gap-2 px-4 py-4 bg-white">
+
+	<button
+		class="flex"
+		mat-icon-button
+		[matTooltip]="'Voltar'"
+		[routerLink]="'/home'">
+		<mat-icon
+			[fontIcon]="'arrow_back'"></mat-icon>
+	</button>
+
+	<span class="text-3xl font-medium">
+		Distribuição das equipes por chave
+	</span>
+
+	<!-- Save -->
+	<button
+		mat-flat-button
+		class="flex items-center gap-2 ml-auto"
+		[color]="'primary'"
+		(click)="null">
+		<mat-icon
+			[fontIcon]="'check'"></mat-icon>
+		<span>
+			Salvar
+		</span>
+	</button>
+
+</header>
+
+<mat-divider class="w-full"></mat-divider>
+
+<div class="flex flex-col items-center justify-center gap-6 p-8">
+
+	<div
+		*ngIf="numberOfTeams > teams.length"
+		class="flex flex-col gap-2 max-w-3xl w-full border rounded-md border-red-700 bg-red-50 text-red-700 p-4">
+		<p class="font-semibold">
+			Atenção!
+		</p>
+		<mat-divider class="w-full"></mat-divider>
+		<p>
+			Está definido que neste torneio participarão <strong>{{ numberOfTeams }} equipes</strong>,
+			<span *ngIf="teams.length == 0">
+				mas não há nenhuma equipe cadastrada.
+			</span>
+			<span *ngIf="teams.length > 0">
+				mas há apenas
+				<strong>
+					{{ teams.length }}
+					{{ teams.length | i18nPlural: {
+						'=1': 'equipe cadastrada.',
+						'other': 'equipes cadastradas.'
+					} }}
+				</strong>
+			</span>
+		</p>
+		<p class="mt-4 text-xs">
+			Por favor, cadastre todas as equipes devidamente antes de prosseguir com a definição das chaves.
+		</p>
+	</div>
+
+	<form
+		[formGroup]="form"
+		class="grid grid-cols-2 gap-4 max-w-3xl w-full">
+
+		<ng-container [formArrayName]="'keys'">
+
+			<!-- Card -->
+			<div
+				*ngFor="let group of formKeys.controls; index as i"
+				[formGroup]="group"
+				class="flex flex-col w-full h-full shadow-md rounded-md overflow-hidden">
+
+				<header class="w-full text-center bg-gray-600 text-white p-2">
+					<span class="text-3xl font-bold">
+						{{ group.get('key').value }}
+					</span>
+				</header>
+
+				<div class="flex flex-col gap-1 p-6 pb-2">
+
+					<!-- Team 1 -->
+					<div class="flex-auto flex items-start gap-2">
+						<mat-form-field class="flex-auto">
+							<mat-select
+								placeholder="Equipe 1"
+								[formControlName]="'team1'">
+								<ng-container *ngFor="let team of teams">
+									<mat-option
+										*ngIf="!definedTeamsIds[team.teamId] || group.get('team1').value == team.teamId"
+										[value]="team.teamId">
+										{{ team.name }}
+									  </mat-option>
+								</ng-container>
+							</mat-select>
+						</mat-form-field>
+						<button
+							mat-icon-button
+							type="button"
+							(click)="clearTeamControl('team1', i)"
+							[matTooltip]="'Limpar seleção'">
+							<mat-icon
+								[fontIcon]="'delete'"></mat-icon>
+						</button>
+					</div>
+
+					<!-- Team 2 -->
+					<div class="flex-auto flex items-start gap-2">
+						<mat-form-field class="flex-auto">
+							<mat-select
+								placeholder="Equipe 2"
+								[formControlName]="'team2'">
+								<ng-container *ngFor="let team of teams">
+									<mat-option
+										*ngIf="!definedTeamsIds[team.teamId] || group.get('team2').value == team.teamId"
+										[value]="team.teamId">
+										{{ team.name }}
+									  </mat-option>
+								</ng-container>
+							</mat-select>
+						</mat-form-field>
+						<button
+							mat-icon-button
+							type="button"
+							(click)="clearTeamControl('team2', i)"
+							[matTooltip]="'Limpar seleção'">
+							<mat-icon
+								[fontIcon]="'delete'"></mat-icon>
+						</button>
+					</div>
+
+				</div>
+
+			</div>
+
+		</ng-container>
+
+	</form>
+
+</div>

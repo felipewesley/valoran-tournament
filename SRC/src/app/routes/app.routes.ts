@@ -66,6 +66,10 @@ export const appRoutes: Routes = [
 							}
 
 						]
+					},
+					{
+						path: 'keys',
+						loadComponent: () => import('../modules/tournament/keys/keys.component')
 					}
 
 				]
