@@ -74,7 +74,7 @@
 
 				<header class="w-full text-center bg-gray-600 text-white p-2">
 					<span class="text-3xl font-bold">
-						{{ group.get('key').value }}
+						Chave {{ group.get('key').value }}
 					</span>
 				</header>
 
@@ -101,7 +101,7 @@
 							(click)="clearTeamControl('team1', i)"
 							[matTooltip]="'Limpar seleção'">
 							<mat-icon
-								[fontIcon]="'delete'"></mat-icon>
+								[fontIcon]="'backspace'"></mat-icon>
 						</button>
 					</div>
 
@@ -126,7 +126,7 @@
 							(click)="clearTeamControl('team2', i)"
 							[matTooltip]="'Limpar seleção'">
 							<mat-icon
-								[fontIcon]="'delete'"></mat-icon>
+								[fontIcon]="'backspace'"></mat-icon>
 						</button>
 					</div>
 
