@@ -46,7 +46,7 @@ export const HOME_CONSTANTS = {
 				icon: 'emoji_events',
 				description: 'Esta ação permite que você avance para o módulo de gerenciamento do torneio, podendo iniciá-lo ou acompanhá-lo.',
 				enabled: true,
-				url: '/tournament/start'
+				url: '/tournament/main'
 			},
 		];
 	}

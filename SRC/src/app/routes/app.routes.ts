@@ -70,6 +70,10 @@ export const appRoutes: Routes = [
 					{
 						path: 'keys',
 						loadComponent: () => import('../modules/tournament/keys/keys.component')
+					},
+					{
+						path: 'main',
+						loadComponent: () => import('../modules/tournament/main/main.component')
 					}
 
 				]
