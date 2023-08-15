@@ -1,13 +1,16 @@
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { MaterialModule } from "app/shared/modules/material";
 
-import { Subject, takeUntil } from "rxjs";
+import { Subject, filter, startWith, switchMap, takeUntil } from "rxjs";
+import { DialogService } from "app/core/dialog";
+import { NotificationService } from "app/core/notification";
 
 import { TeamModel } from "app/domain/models/tournament/team/team.model";
+import { TournamentKeyModel } from "app/domain/models/tournament/key/key.model";
 
 import { TournamentKeysService } from "./services/keys.service";
 import { TournamentKeysFormService } from "./services/keys-form.service";
@@ -47,7 +50,10 @@ export default class TournamentKeysComponent implements OnInit, OnDestroy {
 	 */
 	constructor(
 		private _service: TournamentKeysService,
-		private _formService: TournamentKeysFormService
+		private _formService: TournamentKeysFormService,
+		private _dialogService: DialogService,
+		private _notificationService: NotificationService,
+		private _router: Router
 	) { }
 
 	ngOnInit(): void {
@@ -69,6 +75,7 @@ export default class TournamentKeysComponent implements OnInit, OnDestroy {
 
 		this.formKeys.valueChanges
 			.pipe(
+				startWith(this.formKeys.value),
 				takeUntil(this._unsubscribeAll)
 			)
 			.subscribe(value => {
@@ -118,5 +125,37 @@ export default class TournamentKeysComponent implements OnInit, OnDestroy {
 	 */
 	public clearTeamControl(team: string, index: number): void {
 		this._formService.clearTeamControl(index, team);
+	}
+
+	/**
+	 * Save action callback
+	 */
+	public save(): void {
+
+		this._dialogService.confirm('Deseja salvar as alterações realizadas?')
+			.pipe(
+				filter(res => res),
+				switchMap(() => {
+
+					const formValue = this._formService.getValue();
+
+					const keys: TournamentKeyModel[] = formValue
+						.keys
+						.map(e => ({
+							key: e.key,
+							team1: e.team1,
+							team2: e.team2
+						}));
+
+					return this._service.updateKeys(keys);
+				})
+			)
+			.subscribe(() => {
+
+				this._notificationService.message('Alterações salvas com sucesso');
+
+				// Navigate to home
+				this._router.navigate(['/home']);
+			});
 	}
 }

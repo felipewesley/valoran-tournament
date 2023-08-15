@@ -66,8 +66,8 @@ export class TournamentKeysFormService {
 	public getValue(): FormValue {
 
 		const value: FormValue = {
-
-		} as FormValue;
+			keys: this._form.get('keys').value
+		};
 
 		return value;
 	}
@@ -81,6 +81,8 @@ export class TournamentKeysFormService {
 
 		if (!value)
 			return void 0;
+
+		this._removeAllKeys();
 
 		value.keys.forEach(() => this._addKeyGroup());
 
@@ -115,7 +117,14 @@ export class TournamentKeysFormService {
 			team2: this._fb.control('')
 		});
 
-		(this._form.get('keys') as FormArray).push(group);
+		(this._form.get('keys') as FormArray).push(group, { emitEvent: false });
+	}
+
+	/**
+	 * Removes all keys from form
+	 */
+	private _removeAllKeys(): void {
+		(this._form.get('keys') as FormArray).clear({ emitEvent: false });
 	}
 
 	/**

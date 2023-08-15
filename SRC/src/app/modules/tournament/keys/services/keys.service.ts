@@ -52,4 +52,18 @@ export class TournamentKeysService {
 		return this._tournamentService.teams$;
 	}
 
+	// --------------------------------------------------
+	// Public methods
+	// --------------------------------------------------
+
+	/**
+	 *
+	 * @param keys
+	 * @returns
+	 */
+	public updateKeys(keys: TournamentKeyModel[]): Observable<void> {
+
+		return this._tournamentService.updateKeys(keys);
+	}
+
 }
