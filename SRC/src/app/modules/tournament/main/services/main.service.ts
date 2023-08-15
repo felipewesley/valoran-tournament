@@ -52,43 +52,53 @@ export class TournamentMainService {
 
 		const lanes: TournamentMainLaneModel[] = [];
 
-		/**
-		 * Winner
-		 */
-		lanes.push({
-			laneName: 'Resultado',
-			keys: [
-				{
-					keyName: 'Vencedor',
-					isResultKey: true
-				}
-			]
-		});
-
 		const numberOfLanes: number = Utils.calcNumberOfLanes(numberOfTeams, TOURNAMENT_CONSTANTS.numberOfMembersByTeam);
 
-		for (let index = (numberOfLanes - 1); index > 1; index--) {
+		for (let index = (numberOfLanes); index >= 1; index--) {
+
+			/**
+			 * Winner
+			 */
+			if (index == (numberOfLanes)) {
+
+				lanes.push({
+					laneName: 'Resultado',
+					keys: [
+						{
+							keyName: 'Vencedor',
+							isResultKey: true
+						}
+					]
+				});
+
+				continue;
+			}
 
 			/**
 			 * "Final" lane must have a diferent name
 			 */
 			if (index == (numberOfLanes - 1)) {
 
+				const laneName = keys.length == 1 ? 'Disputa de grupos' : 'Final';
+				const keyName = keys.length == 1 ? 'Chave principal' : 'Finalistas';
+
 				lanes.push({
-					laneName: 'Final',
+					laneName: laneName,
 					keys: [
 						{
-							keyName: 'Finalistas',
+							keyName: keyName,
 							isResultKey: false
 						}
 					]
 				});
+
+				continue;
 			}
 
 			/**
 			 * First lane was added manually
 			 */
-			if (index === 2) {
+			if (index == 1) {
 
 				const firstLane: TournamentMainLaneModel = {
 					laneName: 'Fase de grupos',
