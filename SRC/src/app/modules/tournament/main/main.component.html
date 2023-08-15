@@ -1,1 +1,36 @@
-Main
+<div class="flex-auto flex flex-col gap-4 p-8 w-full h-full">
+
+	<!-- Page title -->
+	<header class="flex-auto text-center text-3xl font-light">
+		Acompanhamento do torneio
+	</header>
+
+	<!-- Content -->
+	<div class="flex gap-2 p-6 w-full h-full">
+
+		<!-- Lanes -->
+		<section
+			*ngFor="let lane of lanes"
+			class="w-full flex flex-col border rounded-md overflow-hidden">
+
+			<!-- Lane title -->
+			<header class="w-full text-center text-lg border border-indigo-600 bg-indigo-600 text-white font-medium p-4">
+				{{ lane.laneName }}
+			</header>
+
+			<!-- Keys -->
+			<div class="flex-auto flex flex-col justify-around gap-2 border-gray-300 p-6">
+
+				<!-- Key -->
+				<app-tournament-main-key
+					*ngFor="let key of lane.keys"
+					[data]="key"
+					[teams]="teams"></app-tournament-main-key>
+
+			</div>
+
+		</section>
+
+	</div>
+
+</div>
