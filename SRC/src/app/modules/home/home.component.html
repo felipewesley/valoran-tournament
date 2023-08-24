@@ -2,6 +2,13 @@
 
 	<header class="font-light text-4xl">
 		Página inicial
+		<div class="mt-4 flex items-center justify-center gap-4">
+			<button mat-flat-button [color]="'primary'" (click)="start()">Start</button>
+			<button mat-flat-button [color]="'primary'" (click)="stop()">Stop</button>
+			<audio controls *ngIf="audioSrc">
+				<source [src]="audioSrc">
+			</audio>
+		</div>
 	</header>
 
 	<mat-divider class="w-full"></mat-divider>
@@ -17,9 +24,7 @@
 			<div class="flex items-center gap-4">
 
 				<div class="flex items-center justify-center w-14 h-14 bg-yellow-100 text-yellow-600 rounded-full">
-					<mat-icon
-						class="scale-125"
-						[fontIcon]="'emoji_objects'"></mat-icon>
+					<mat-icon class="scale-125" [fontIcon]="'emoji_objects'"></mat-icon>
 				</div>
 
 				<div class="flex flex-col gap-px">
@@ -36,26 +41,24 @@
 		</div>
 
 		<!-- IR AO TORNEIO -->
-			<!-- INICIAR -->
-			<!-- ACOMPANHAR -->
+		<!-- INICIAR -->
+		<!-- ACOMPANHAR -->
 
 		<!-- CONFIGURAR O TORNEIO -->
-			<!-- NUMERO DE EQUIPES -->
-			<!-- (FLAG) INFORMAR PLACAR AO AVANÇAR ETAPA (em pontos) -->
+		<!-- NUMERO DE EQUIPES -->
+		<!-- (FLAG) INFORMAR PLACAR AO AVANÇAR ETAPA (em pontos) -->
 
 		<!-- GERENCIAR EQUIPES -->
-			<!-- NOVA EQUIPE -->
-			<!-- LISTA DE EQUIPES -->
-			<!-- REMOVER UMA EQUIPE -->
-			<!-- EDITAR UMA EQUIPE -->
+		<!-- NOVA EQUIPE -->
+		<!-- LISTA DE EQUIPES -->
+		<!-- REMOVER UMA EQUIPE -->
+		<!-- EDITAR UMA EQUIPE -->
 
 		<!-- GERENCIAR CHAVES -->
-			<!-- DISTRIBUIR EQUIPES POR CHAVE -->
+		<!-- DISTRIBUIR EQUIPES POR CHAVE -->
 
-		<app-home-action-item
-			*ngFor="let action of actions$ | async; trackBy: trackActionsFn"
-			class="w-80 h-full max-w-full"
-			[action]="action"
+		<app-home-action-item *ngFor="let action of actions$ | async; trackBy: trackActionsFn"
+			class="w-80 h-full max-w-full" [action]="action"
 			(onActionClick)="actionClicked($event)"></app-home-action-item>
 
 	</div>

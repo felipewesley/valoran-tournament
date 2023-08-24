@@ -1,27 +1,27 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable, map, of, take } from "rxjs";
+import { BehaviorSubject, Observable, from, map, of, take } from 'rxjs';
 
-import { CoreTournamentService } from "app/core/tournament";
+import { CoreTournamentService } from 'app/core/tournament';
 
-import { HOME_CONSTANTS } from "app/domain/constants/home/home.constant";
-import { HomeActionListModel } from "app/domain/models/home/action-list.model";
+import { HOME_CONSTANTS } from 'app/domain/constants/home/home.constant';
+import { HomeActionListModel } from 'app/domain/models/home/action-list.model';
+import { AudioRecorder } from '@felipewb/audio-recorder/dist';
 
 @Injectable()
 export class HomeService {
-
 	// --------------------------------------------------
 	// Properties
 	// --------------------------------------------------
 
 	private _actions = new BehaviorSubject<HomeActionListModel[]>([]);
 
+	private readonly _audio = new AudioRecorder();
+
 	/**
 	 * Constructor
 	 */
-	constructor(
-		private _tournamentService: CoreTournamentService
-	) { }
+	constructor(private _tournamentService: CoreTournamentService) {}
 
 	// --------------------------------------------------
 	// Accessors
@@ -45,21 +45,30 @@ export class HomeService {
 	// Public methods
 	// --------------------------------------------------
 
+	public start(): Observable<void> {
+		const promise = this._audio.start();
+
+		return from(promise);
+	}
+
+	public stop(): Observable<Blob> {
+		const promise = this._audio.stop();
+
+		return from(promise);
+	}
+
 	/**
 	 * Fetch home page actions from api and updates the `actions$` observable
 	 * @returns
 	 */
 	public fetchActions(): Observable<void> {
+		return this._fetchActions().pipe(
+			map((actions) => {
+				this._actions.next(actions);
 
-		return this._fetchActions()
-			.pipe(
-				map(actions => {
-
-					this._actions.next(actions);
-
-					return void 0;
-				})
-			);
+				return void 0;
+			})
+		);
 	}
 
 	/**
@@ -67,7 +76,6 @@ export class HomeService {
 	 * @param numberOfTeams
 	 */
 	public updateNumberOfTeams(numberOfTeams: number): Observable<void> {
-
 		return this._tournamentService.updatedNumberOfTeams(numberOfTeams);
 	}
 
@@ -76,13 +84,9 @@ export class HomeService {
 	// --------------------------------------------------
 
 	private _fetchActions(): Observable<HomeActionListModel[]> {
-
 		const actions = HOME_CONSTANTS.actions;
 
 		// return this._http.get<HomeActionListModel[]>(url)
-		return of(actions)
-			.pipe(
-				take(1)
-			);
+		return of(actions).pipe(take(1));
 	}
 }
